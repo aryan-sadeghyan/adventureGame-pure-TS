@@ -13,6 +13,7 @@ export default class Game {
     this._rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
+      terminal: false, // Add this to prevent double echo
     });
     this.initGame();
     this.startGame();
@@ -49,9 +50,10 @@ export default class Game {
       "dense and green",
       "lobby",
       undefined,
-      undefined,
       "hut"
     );
+
+    room1.addItem("tresure");
 
     this._map.addRoom("lobby", room0);
     this._map.addRoom("cave", room1);
@@ -118,7 +120,7 @@ export default class Game {
 
         break;
       case "look":
-        this.look();
+        this.look(this._player.location);
         break;
       default:
         console.log("command not understood");
@@ -126,10 +128,11 @@ export default class Game {
     }
   }
 
-  private look(): void {
+  private look(room: Room): void {
     console.log(
       `you are in : ${this._player.location.title} and ${this._player.location.description}`
     );
+    console.log(room.thingList);
   }
 
   private movePlayer(dirValue: string): void {

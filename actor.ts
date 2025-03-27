@@ -1,7 +1,8 @@
 import Room from "./room";
 import Thing from "./thing";
+import ThingHolder from "./thingHolder";
 
-export default class Actor extends Thing {
+export default class Actor extends ThingHolder {
   private _location: Room;
   constructor(
     _name: string = "",

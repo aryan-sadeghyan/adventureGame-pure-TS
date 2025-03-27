@@ -1,4 +1,5 @@
 import Thing, { ThingI } from "./thing";
+import ThingHolder from "./thingHolder";
 
 interface RoomI extends ThingI {
   N?: string;
@@ -6,10 +7,11 @@ interface RoomI extends ThingI {
   W?: string;
   E?: string;
 }
-export default class Room extends Thing implements RoomI {
+export default class Room extends ThingHolder implements RoomI {
   constructor(
     _title: string = "",
     _description: string = "",
+
     private _N: string = "",
     private _S: string = "",
     private _W: string = "",
