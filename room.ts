@@ -1,33 +1,33 @@
 import Thing, { ThingI } from "./thing";
 
 interface RoomI extends ThingI {
-  N: number;
-  S: number;
-  W: number;
-  E: number;
+  N?: string;
+  S?: string;
+  W?: string;
+  E?: string;
 }
 export default class Room extends Thing implements RoomI {
   constructor(
     _title: string = "",
     _description: string = "",
-    private _N: number = 0,
-    private _S: number = 0,
-    private _W: number = 0,
-    private _E: number = 0
+    private _N: string = "",
+    private _S: string = "",
+    private _W: string = "",
+    private _E: string = ""
   ) {
     super(_title, _description);
   }
 
-  get S(): number {
+  get S(): string {
     return this._S;
   }
-  get N(): number {
+  get N(): string {
     return this._N;
   }
-  get E(): number {
+  get E(): string {
     return this._E;
   }
-  get W(): number {
+  get W(): string {
     return this._W;
   }
 }

@@ -1,13 +1,15 @@
 import Actor from "./actor";
+import RoomMap from "./map";
 import Room from "./room";
 import * as readline from "readline";
 
 export default class Game {
-  private map: Room[] = new Array(4);
   private _player!: Actor;
   private _rl: readline.Interface;
+  private _map: RoomMap;
 
   constructor() {
+    this._map = new RoomMap();
     this._rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -15,38 +17,46 @@ export default class Game {
     this.initGame();
     this.startGame();
   }
-
+  // s n e w
   private initGame(): void {
-    const room0 = new Room("Troll Room", "You see a troll", -1, 2, -1, 1);
-    const room1 = new Room(
-      "forrest",
-      "a very dense and wet forrest with slippery ground",
-      -1,
-      -1,
-      0,
-      -1
+    const room0 = new Room(
+      "lobby",
+      "You see a troll",
+      "forrest", // North
+      undefined, // South
+      undefined, // West
+      "cave" // East
     );
+    const room1 = new Room(
+      "cave",
+      "very dark",
+      undefined,
+      "hut",
+      "lobby",
+      undefined
+    );
+
     const room2 = new Room(
-      "Doungen",
-      "if u stay to long you will might get lost",
-      0,
-      -1,
-      -1,
-      3
+      "hut",
+      "wet and leaking",
+      "cave",
+      undefined,
+      "forrest",
+      undefined
     );
     const room3 = new Room(
-      "Cave",
-      "a dark cave which migh have a tresure",
-      -1,
-      -1,
-      2,
-      -1
+      "forrest",
+      "dense and green",
+      "lobby",
+      undefined,
+      undefined,
+      "hut"
     );
 
-    this.map[0] = room0;
-    this.map[1] = room1;
-    this.map[2] = room2;
-    this.map[3] = room3;
+    this._map.addRoom("lobby", room0);
+    this._map.addRoom("cave", room1);
+    this._map.addRoom("hut", room2);
+    this._map.addRoom("forrest", room3);
 
     this._player = new Actor("Player", "you", room0);
   }
@@ -122,11 +132,19 @@ export default class Game {
     );
   }
 
-  private movePlayer(dirValue: number) {
-    if (dirValue === -1) {
+  private movePlayer(dirValue: string): void {
+    if (dirValue === undefined) {
       console.log("You can't go that way");
-    } else {
-      this._player.location = this.map[dirValue];
+      return;
     }
+
+    const newRoom = this._map.getRoom(dirValue);
+
+    if (!newRoom) {
+      console.log(`Cannot find room: ${dirValue}`);
+      return;
+    }
+
+    this._player.location = newRoom;
   }
 }
