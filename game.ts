@@ -1,4 +1,5 @@
 import Actor from "./actor";
+import Item from "./item";
 import RoomMap from "./map";
 import Room from "./room";
 import * as readline from "readline";
@@ -18,49 +19,51 @@ export default class Game {
     this.initGame();
     this.startGame();
   }
-  // s n e w
+  // n s w e
   private initGame(): void {
-    const room0 = new Room(
-      "lobby",
-      "You see a troll",
-      "forrest", // North
-      undefined, // South
-      undefined, // West
-      "cave" // East
-    );
-    const room1 = new Room(
-      "cave",
-      "very dark",
-      undefined,
-      "hut",
-      "lobby",
-      undefined
-    );
+    const room0 = new Room({
+      title: "lobby",
+      description: "starting point of the map",
+      N: undefined,
+      S: "forrest",
+      W: undefined,
+      E: "cave",
+    });
+    const room1 = new Room({
+      title: "cave",
+      description:
+        "very dark and dangurous. you might find gold but if you stay too long you will die",
+      N: undefined,
+      S: "river",
+      W: "lobby",
+      E: undefined,
+    });
 
-    const room2 = new Room(
-      "hut",
-      "wet and leaking",
-      "cave",
-      undefined,
-      "forrest",
-      undefined
-    );
-    const room3 = new Room(
-      "forrest",
-      "dense and green",
-      "lobby",
-      undefined,
-      "hut"
-    );
+    const room2 = new Room({
+      title: "hut",
+      description: "someone used to live here. might find food",
+      N: "cave",
+      S: undefined,
+      W: "forrest",
+      E: undefined,
+    });
+    const room3 = new Room({
+      title: "forrest",
+      description: "you can harvest material in this dense and wet forrest",
+      N: "lobby",
+      S: undefined,
+      W: undefined,
+      E: "hut",
+    });
 
-    room1.addItem("tresure");
+    room1.addItem({ title: " sack of coin" } as Item);
 
     this._map.addRoom("lobby", room0);
     this._map.addRoom("cave", room1);
     this._map.addRoom("hut", room2);
     this._map.addRoom("forrest", room3);
 
-    this._player = new Actor("Player", "you", room0);
+    this._player = new Actor(room0);
   }
 
   private startGame(): void {

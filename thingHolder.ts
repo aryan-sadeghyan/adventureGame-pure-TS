@@ -1,12 +1,13 @@
-import Thing from "./thing";
+import Item from "./item";
+import Thing, { ThingI } from "./thing";
 
-interface ThingHolderI {
+interface ThingHolderI extends ThingI {
   thingList: string[];
 }
 
 export default class ThingHolder extends Thing {
-  private _thingList: string[];
-  constructor(_title: string = "", _description: string = "") {
+  private _thingList: Thing[];
+  constructor(_title = "", _description = "") {
     super(_title, _description);
     this._thingList = [];
   }
@@ -14,7 +15,22 @@ export default class ThingHolder extends Thing {
   get thingList() {
     return this._thingList;
   }
-  addItem(thing: string) {
-    this._thingList.push(thing);
+  public addItem(item: Item) {
+    this._thingList.push(item);
+  }
+
+  public removeItem(title: string) {
+    const deletedItem = this._thingList.find((thing) => {
+      title.toLowerCase() === thing.title.toLowerCase();
+    });
+
+    if (!deletedItem) {
+      return undefined;
+    }
+
+    const index = this._thingList.indexOf(deletedItem);
+    if (index !== -1) {
+      return this._thingList.splice(index, 1)[0];
+    }
   }
 }

@@ -4,12 +4,8 @@ import ThingHolder from "./thingHolder";
 
 export default class Actor extends ThingHolder {
   private _location: Room;
-  constructor(
-    _name: string = "",
-    _description: string = "",
-    _location: Room = new Room()
-  ) {
-    super(_name, _description);
+  constructor(_location: Room = new Room()) {
+    super();
     this._location = _location;
   }
 
